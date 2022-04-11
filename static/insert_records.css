@@ -1,0 +1,41 @@
+
+  
+
+#heading {
+
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+    color: white;
+    text-align: left;
+    padding-left: 70px;
+    height: 70px;
+    background-image: linear-gradient(to right, rgb(86, 114, 241) , rgb(255, 255, 255));
+    
+          
+  
+
+}
+
+
+
+#Logo {
+
+  float:right;
+  padding-right: 50px;
+  
+}
+
+#table1
+{
+    font-family: monospace
+    
+}
+
+
+
+
+#grad {
+    background-image: linear-gradient(to right, rgb(154, 161, 161) , rgb(255, 255, 255));
+  }
+
+
