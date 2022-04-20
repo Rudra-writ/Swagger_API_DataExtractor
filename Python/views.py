@@ -7,6 +7,7 @@ import glob
 import os.path
 from django.http import HttpResponse
 import tabulate
+import mwclient
 
 def first_page(request):
      context ={}
@@ -103,6 +104,7 @@ def first_page(request):
             print(filters)
             print(df_concat.head())
             df_concat=df_concat.fillna("none")
+            df_concat = df_concat.replace("-", "none")
             df_concat.set_index( ['Req ID'],drop = True, inplace = True, )
             df_concat['filter_column'] = df_concat.index.str.split("-").str[1].str[-2:]
 
@@ -134,11 +136,26 @@ def first_page(request):
                 col+=row_seperator
                 
                 for ind, column in rows.iteritems():
-                    col+= '|'+column +'\n'
+                    col+= '|'+column +'\n' if type(column) == str else '|'+ ''.join(column)  +'\n'
                 table+=col
                 
             table = table + '|}'
             print(table)
+
+            site = mwclient.Site('wiki.ad.rfa.space',scheme='http', path='/', force_login= False)
+            site.login('Rudrawrit.majumdar@Rudrawrit', 'ddqr7c5v0heiqdm6uihk3kksrrhiestk')
+            Users = ['User:Rudrawrit.majumdar', 'User:Prathamesh.malpathak']
+            for user in Users:
+                page = site.pages[user]
+                text = page.text()
+                print(page.exists)
+                page.edit(text,'' )
+                print (text.encode('utf-8'))
+                heading = "== GNC Requirements =="
+                
+                message = "\n\n{}\n{} --~~~~".format(heading, table)
+                page.save(message,summary='testing write api')
+
              
             file_data = table
             response2 = HttpResponse(file_data, content_type='application/text charset=utf-8')
